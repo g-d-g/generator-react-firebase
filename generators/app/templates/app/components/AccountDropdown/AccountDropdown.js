@@ -3,18 +3,15 @@ import { Link } from 'react-router'
 import './AccountDropdown.scss'
 
 export default class AccountDropdown extends Component {
-  constructor () {
-    super()
-  }
 
-  state = { isOpen: false };
+  state = { isOpen: false }
 
   static propTypes = {
     account: PropTypes.shape({
       username: PropTypes.string.isRequired
     }).isRequired,
     onLogoutClick: PropTypes.func
-  };
+  }
 
   toggleDropdown = () => {
     this.setState({

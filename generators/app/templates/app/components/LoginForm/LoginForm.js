@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import { Link } from 'react-router'
-import TextField from 'material-ui/lib/text-field'
-import RaisedButton from 'material-ui/lib/raised-button'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Checkbox from 'material-ui/lib/checkbox'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
+import Checkbox from 'material-ui/checkbox'
 import './LoginForm.scss'
 
 const fieldStyle = { width: '80%' }

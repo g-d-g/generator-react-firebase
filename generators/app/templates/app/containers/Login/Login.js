@@ -5,17 +5,18 @@ import { Link } from 'react-router'
 import LoginForm from '../../components/LoginForm/LoginForm'
 
 // material-ui components
-import Paper from 'material-ui/lib/paper'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Snackbar from 'material-ui/lib/snackbar'
-import RaisedButton from 'material-ui/lib/raised-button'
-import FontIcon from 'material-ui/lib/font-icon'
+import Paper from 'material-ui/Paper'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar'
+import RaisedButton from 'material-ui/RaisedButton'
+import FontIcon from 'material-ui/FontIcon'
 
 // styles
 import './Login.scss'
 
-// firebase
-import firebase from '../../utils/firebase'
+
+<% if (!answers.includeRedux) { %>// firebase
+import firebase from '../../utils/firebase'<% } %>
 
 <% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'

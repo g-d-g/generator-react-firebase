@@ -9,12 +9,8 @@ import * as Actions from '../../actions/cars'
 <% } %>
 
 import './Cars.scss'
-<% if (answers.includeRedux) { %>class Cars extends Component <% } %>
+<% if (answers.includeRedux) { %>class Cars extends Component {<% } %>
 <% if (!answers.includeRedux) { %>export default class Cars extends Component {<% } %>
-
-  constructor (props) {
-    super(props)
-  }
 
   static propTypes = {
     cars: PropTypes.array,

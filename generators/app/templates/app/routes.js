@@ -10,8 +10,8 @@ import {
     NotFound,
     Cars
   } from './containers'
-<% if (answers.includeRedux) { %>export default (history) => (
-  <Router history={ history }>
+<% if (answers.includeRedux) { %>export default () => (
+  <Router history={ browserHistory }>
     <Route path='/' component={ App }>
       <IndexRoute component={ Home } />
       <Route path='login' component={ Login }/>

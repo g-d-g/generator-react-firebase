@@ -6,7 +6,7 @@ import { reduxReactFirebase } from 'redux-react-firebase'
 // import { apiMiddleware } from 'redux-api-middleware'
 
 const createStoreWithMiddleware = compose(
-  reduxReactFirebase(fbConfig.url, { userProfile: fbConfig.userFolder }),
+  reduxReactFirebase(fbConfig, { userProfile: fbConfig.userFolder }),
   applyMiddleware(thunkMiddleware),
   typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)

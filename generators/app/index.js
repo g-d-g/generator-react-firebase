@@ -51,7 +51,7 @@ module.exports = yeoman.Base.extend({
         type: 'confirm',
         name: 'includeRedux',
         message: 'Would to include redux for local state-management?',
-        default: false
+        default: true
       },
       {
         type: 'list',

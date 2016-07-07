@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 <% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'<% } %>
+import { connect } from 'react-redux'<% } %>
 
 // Components
 import Navbar from '../../components/Navbar/Navbar'
@@ -17,9 +16,6 @@ injectTapEventPlugin()
 
 <% if (answers.includeRedux) { %>class Main extends Component {<% } %>
 <% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
-  constructor (props) {
-    super(props)
-  }
 
   static childContextTypes = {
     muiTheme: React.PropTypes.object
@@ -67,7 +63,7 @@ const mapStateToProps = (state) => {
 }
 
 // Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
 <% } %>

@@ -8,7 +8,8 @@ import { reduxReactFirebase } from 'redux-react-firebase'
 const createStoreWithMiddleware = compose(
   reduxReactFirebase(fbConfig, { userProfile: fbConfig.userFolder }),
   applyMiddleware(thunkMiddleware),
-  typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
+  // causes error with redux-react-firebase (TypeError: Converting circular structure to JSON)
+  // typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)
 
 export default function configureStore (initialState) {

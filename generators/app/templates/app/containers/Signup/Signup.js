@@ -11,13 +11,14 @@ import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 
-// firebase
-import firebaseUtil from '../../utils/firebase'
+<% if (!answers.includeRedux) { %>// firebase
+import firebase from '../../utils/firebase'<% } %>
 
 // styles
 import './Signup.scss'
 
 <% if (answers.includeRedux) { %>import { firebase, helpers } from 'redux-react-firebase'
+import { connect } from 'react-redux'
 
 const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
 

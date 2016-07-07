@@ -100,7 +100,8 @@ function createWebpackConfig (options) {
 
   const resolve = {
     alias: {
-      assets: path.resolve(__dirname, '..', 'assets')
+      assets: path.resolve(__dirname, '..', 'assets'),
+      'firebase': path.resolve(__dirname, '..', 'node_modules/firebase/firebase-browser')
     },
     extensions: ['', '.js']
   }
@@ -113,7 +114,8 @@ function createWebpackConfig (options) {
 
   const loaders = [
     {
-      exclude: /node_modules/,
+      // exclude: [/node_modules/],
+      exclude: [/node_modules/ , /redux-react-firebase\//], //needed when npm-linking
       test: /\.js$/,
       loaders: options.dev
       ? ['react-hot', 'babel']

@@ -1,6 +1,10 @@
-import { capitalize, find } from 'lodash'
 import React, { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router'<% if (answers.includeRedux) { %>
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-react-firebase'
+const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers<% } %>
+import { capitalize, find } from 'lodash'
 
 // components
 import SignupForm from '../../components/SignupForm/SignupForm'
@@ -17,31 +21,20 @@ import firebase from '../../utils/firebase'<% } %>
 // styles
 import './Signup.scss'
 
-<% if (answers.includeRedux) { %>import { firebase, helpers } from 'redux-react-firebase'
-import { connect } from 'react-redux'
-
-const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
-
-@firebase()
+<% if (answers.includeRedux) { %>@firebase()
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
   })
 )<% } %>
 export default class Signup extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      errors: { username: null, password: null },
-      snackCanOpen: false,
-      errorMessage: null
-    }
+
+  state = {
+    errors: { username: null, password: null },
+    snackCanOpen: false,
+    errorMessage: null
   }
 
-  /**
-   * @function reset
-   * @description Reset whole state (inputs, errors, snackbar open/close)
-   */
   reset = () =>
     this.setState({
       errors: {},

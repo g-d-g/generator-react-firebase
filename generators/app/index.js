@@ -26,7 +26,7 @@ module.exports = yeoman.Base.extend({
       },
       {
         name: 'firebaseName',
-        message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
+        message: 'Firebase Database (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
         default: 'testing',
         validate: function (input) {
@@ -43,14 +43,14 @@ module.exports = yeoman.Base.extend({
       },
       {
         type: 'confirm',
-        name: 'includeTravis',
-        message: 'Would to include config for Travis CI?',
+        name: 'includeRedux',
+        message: 'Would to include redux for local state-management?',
         default: true
       },
       {
         type: 'confirm',
-        name: 'includeRedux',
-        message: 'Would to include redux for local state-management?',
+        name: 'includeTravis',
+        message: 'Would to include config for Travis CI?',
         default: true
       },
       {

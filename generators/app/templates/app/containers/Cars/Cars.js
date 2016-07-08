@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+<% if (answers.includeRedux) { %>import { connect } from 'react-redux'
 import {firebase, helpers} from 'redux-react-firebase'
 const {isLoaded, isEmpty, dataToJS} = helpers<% } %>
 
 import './Cars.scss'
-<% if (answers.includeRedux) { %>
-@firebase( [
+<% if (answers.includeRedux) { %>@firebase([
   '/cars', // make sure your security rules are set to allow this
 ])
 @connect(

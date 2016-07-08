@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router'<% if (answers.includeRedux) { %>
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-react-firebase'
+const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers<% } %>
 
 // components
 import LoginForm from '../../components/LoginForm/LoginForm'
@@ -13,17 +17,10 @@ import FontIcon from 'material-ui/FontIcon'
 
 // styles
 import './Login.scss'
-
-
 <% if (!answers.includeRedux) { %>// firebase
 import firebase from '../../utils/firebase'<% } %>
 
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-react-firebase'
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
-
-// Props decorators
+<% if (answers.includeRedux) { %>// Props decorators
 @firebase()
 @connect(
   ({firebase}) => ({
@@ -32,13 +29,11 @@ const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
   })
 )<% } %>
 export default class Login extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      snackCanOpen: false,
-      errors: { username: null, password: null },
-      errorMessage: null
-    }
+
+  state = {
+    snackCanOpen: false,
+    errors: { username: null, password: null },
+    errorMessage: null
   }
 
   componentWillReceiveProps (nextProps) {

@@ -113,7 +113,11 @@ function createWebpackConfig (options) {
 
   const loaders = [
     {
+<<<<<<< HEAD
       exclude: /node_modules/,
+=======
+      include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
+>>>>>>> master
       test: /\.js$/,
       loaders: options.dev
       ? ['react-hot', 'babel']
@@ -126,7 +130,7 @@ function createWebpackConfig (options) {
       : ExtractTextPlugin.extract(cssLoaders)
     },
     {
-      exclude: /node_modules/,
+      include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
       test: /\.(jpg|png|svg)$/,
       loader: 'url?limit=8192'
     },

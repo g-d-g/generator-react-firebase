@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 import React, {Component, PropTypes} from 'react'
 import TextField from 'material-ui/lib/text-field'
 import RaisedButton from 'material-ui/lib/raised-button'
+=======
+import React, { Component, PropTypes } from 'react'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import { reduxForm } from 'redux-form'
+
+>>>>>>> master
 import './SignupForm.scss'
 
 const fieldStyle = { width: '80%' }
 const buttonStyle = { width: '96%', marginBottom: '.5rem' }
 
+<<<<<<< HEAD
 export default class SignupForm extends Component {
   static propTypes = {
     account: PropTypes.object,
@@ -68,43 +77,47 @@ export default class SignupForm extends Component {
       [name]: e.target.value
     })
   }
+=======
+export const fields = [ 'username', 'email', 'password' ]
+>>>>>>> master
 
-  /**
-   * @function handlePrivateChange
-   * @description Store private values.
-   * @fires context#setState
-   */
-  handlePrivateChange = (name, e) => {
-    e.preventDefault()
-    this[name] = e.target.value
-  }
+const validate = values => {
+  const errors = {}
+  if (!values.username) errors.username = 'Required'
+  if (!values.email) errors.email = 'Required'
+  if (!values.password) errors.password = 'Required'
+  return errors
+}
 
-  googleSignup = () => {
-    this.props.signup('google')
+class SignupForm extends Component {
+  static propTypes = {
+    isLoading: PropTypes.bool,
+    onSignup: PropTypes.func.isRequired
   }
 
   render () {
+    const {fields: { username, email, password } } = this.props
     return (
-      <form className='SignupForm' onSubmit={this.handleSignup}>
+      <form className='SignupForm' onSubmit={this.props.onSignup}>
         <TextField
           hintText='username'
           floatingLabelText='Username'
-          onChange={this.handleInputChange.bind(this, 'username')}
-          errorText={this.state.errors.username}
+          {...username}
+          errorText={username.touched && username.error ? username.error : null}
           style={fieldStyle}
         />
         <TextField
           hintText='email'
           floatingLabelText='Email'
-          onChange={this.handleInputChange.bind(this, 'email')}
-          errorText={this.state.errors.email}
+          {...email}
+          errorText={email.touched && email.error ? email.error : null}
           style={fieldStyle}
         />
         <TextField
           hintText='password'
           floatingLabelText='Password'
-          onChange={this.handlePrivateChange.bind(this, 'password')}
-          errorText={this.state.errors.password}
+          {...password}
+          errorText={password.touched && password.error ? password.error : null}
           style={fieldStyle}
           type='password'
         />
@@ -113,7 +126,6 @@ export default class SignupForm extends Component {
             label='Sign Up'
             primary
             type='submit'
-            disabled={this.props.account && this.props.account.isFetching}
             style={buttonStyle}
           />
         </div>
@@ -121,3 +133,9 @@ export default class SignupForm extends Component {
     )
   }
 }
+
+export default reduxForm({
+  form: 'Signup',
+  fields,
+  validate
+})(SignupForm)

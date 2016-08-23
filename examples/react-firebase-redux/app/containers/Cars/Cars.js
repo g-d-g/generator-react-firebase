@@ -1,44 +1,37 @@
 import React, { Component, PropTypes } from 'react'
-
-import './Cars.scss'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
-const { isLoaded, isEmpty, pathToJS } = helpers
+import CarsList from '../../components/CarsList/CarsList'
+import * as Actions from '../../actions/cars'
+import './Cars.scss'
 
-// Props decorators
-@firebase([
-  'cars'
-])
-@connect(
-  ({firebase}) => ({
-    cars: pathToJS(firebase, 'cars'),
-    profile: pathToJS(firebase, 'profile')
-  })
-)
-export default class Cars extends Component {
+class Cars extends Component {
+  constructor (props){
+    super(props)
+  }
+
   static propTypes = {
-    cars: PropTypes.array,
-    addCar: PropTypes.func
-  }
 
-  handleClick = () => {
-    console.log('add car clicked')
-  }
+  };
 
-  render () {
-    const carsList = this.props.cars ? this.props.cars.map((car, i) =>
-      (<li key={ i }>{ car.name } - { car.hp }</li>)
-    ) : null
+  render (){
     return (
       <div className='Cars'>
         <h2>Cars</h2>
-        <div className='ClassList'>
-          <ul>
-            { carsList }
-          </ul>
-          <button onClick={ this.handleClick.bind(this) }>Add tesla</button>
-        </div>
+        <CarsList cars={ this.props.cars } onCarAddClick={ this.props.addCar }/>
       </div>
     )
   }
 }
+//Place state of redux store into props of component
+function mapStateToProps (state) {
+  return {
+    cars: state.cars,
+    router: state.router
+  }
+}
+//Place action methods into props
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators(Actions, dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cars)

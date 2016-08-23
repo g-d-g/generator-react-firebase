@@ -1,104 +1,70 @@
-import React, {Component, PropTypes} from 'react'
-import { Link } from 'react-router'
-import TextField from 'material-ui/lib/text-field'
-import RaisedButton from 'material-ui/lib/raised-button'
-import Checkbox from 'material-ui/lib/checkbox'
-import './LoginForm.scss'
+import React, {Component, PropTypes} from 'react';
+import { Link } from 'react-router';
+import './LoginForm.scss';
 
-const fieldStyle = { width: '80%' }
-const buttonStyle = { width: '100%' }
-
-export default class LoginForm extends Component {
-  static propTypes = {
-    account: PropTypes.object,
-    onLogin: PropTypes.func
+ class LoginForm extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { username: '', password: '' }
   }
 
-  state = { errors: { username: null, password: null } }
+  static propType = {
+    onLoginClick: PropTypes.func.isRequired
+  };
 
   /**
-   * @function handleInputChange
-   * @description Update the state with the values from the form inputs.
-   * @fires context#setState
+   * @function handleLogin
+   * @description Fire onLoginClick function provided to component when login is clicked
    */
-  handleInputChange = (name, e) => {
-    e.preventDefault()
-    this.setState({
-      [name]: e.target.value
+  handleLogin = event => {
+    event.preventDefault()
+    this.props.onLoginClick({
+      username:this.state.username,
+      password: this.password
     })
   }
 
   /**
-  * @function handlePrivateChange
-  * @description Store data in object instead of state
-  */
-  handlePrivateChange = (name, e) => {
-    e.preventDefault()
-    this[name] = e.target.value
-  }
+   * @function handleUsernameChange
+   * @description Update the state with the values from the form inputs.
+   * @fires context#setState
+   */
+  handleUsernameChange = event => {
+    this.setState({
+      ['username']: event.target.value
+    })
+  };
 
-  handleLogin = e => {
-    if (e && typeof e.preventDefault === 'function') e.preventDefault()
-    const { username } = this.state
-    if (!username || username === '') {
-      return this.setState({
-        errors: { username: 'Username required' }
-      })
-    }
-    if (!this.password || this.password === '') {
-      return this.setState({
-        errors: { password: 'Password required' }
-      })
-    }
-    const loginData = { username, password: this.password }
-    if (this.props.onLogin) this.props.onLogin(loginData)
-  }
-
-  googleLogin = () => {
-    this.props.onLogin('google')
-  }
+  handlePasswordChange = event => {
+    this.password = event.target.value;
+  };
 
   render () {
     return (
-      <form className='LoginForm' onSubmit={this.handleLogin}>
-        <TextField
-          hintText='some@email.com'
-          floatingLabelText='Username/Email'
-          onChange={() => { this.handleInputChange('username') }}
-          errorText={this.state.errors.username}
-          style={fieldStyle}
-        />
-        <TextField
-          hintText='password'
-          floatingLabelText='Password'
-          type='password'
-          onChange={() => { this.handlePrivateChange('password') }}
-          errorText={this.state.errors.password}
-          style={fieldStyle}
-        />
-        <div className='LoginForm-Submit'>
-          <RaisedButton
-            label='Login'
-            primary
-            type='submit'
-            disabled={this.props.account && this.props.account.isFetching}
-            style={buttonStyle}
-          />
-        </div>
-        <div className='LoginForm-Options'>
-          <div className='LoginForm-Remember'>
-            <Checkbox
-              name='remember'
-              value='remember'
-              label='Remember'
-              labelStyle={{ fontSize: '.8rem' }}
-            />
+        <form className="LoginForm" onSubmit={ this.handleLogin }>
+          <div className="LoginForm-Group">
+            <span className="LoginForm-Label">
+              Username/Email
+            </span>
+            <input className="LoginForm-Input" onChange={ this.handleUsernameChange }/>
           </div>
-          <Link className='LoginForm-Recover-Link' to='/recover'>
-          Forgot Password?
-          </Link>
-        </div>
-      </form>
+          <div className="LoginForm-Group">
+            <span className="LoginForm-Label">
+              Password
+            </span>
+            <input className="LoginForm-Input" onChange={ this.handlePasswordChange } type='password' />
+          </div>
+          <div className="LoginForm-Buttons">
+            <button className="Button LoginForm-Login" type="submit">
+              Login
+            </button>
+            <button className="Button LoginForm-Cancel" type="reset">
+              Cancel
+            </button>
+          </div>
+       </form>
     )
   }
 }
+
+export default LoginForm;

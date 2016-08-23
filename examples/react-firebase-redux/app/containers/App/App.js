@@ -1,75 +1,38 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as Actions from '../../actions'
-
-// Components
-import Navbar from '../../components/Navbar/Navbar'
-
-// Styling
-import Theme from '../../theme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import Actions from '../../actions'
 import './App.scss'
 
-// Tap Plugin
-import injectTapEventPlugin from 'react-tap-event-plugin'
-injectTapEventPlugin()
+import Navbar from '../../components/Navbar/Navbar'
 
 class Main extends Component {
-
-  static childContextTypes = {
-    muiTheme: PropTypes.object
-  }
-
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
-  static propTypes = {
-    account: PropTypes.object,
-    children: PropTypes.array,
-    logout: PropTypes.func
-  }
-
-  getChildContext = () => (
-    {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
-    }
-  )
-
-  handleClick = loc => {
-    this.context.router.push(`/${loc}`)
-  }
-
-  handleLogout = () => {
-    this.props.logout()
-    this.context.router.push(`/`)
+  constructor (props) {
+    super(props)
   }
 
   render () {
     return (
-      <div className="App">
+      <div className='App'>
         <Navbar
           account={ this.props.account }
-          onMenuClick={ this.handleClick }
-          onLogoutClick={ this.handleLogout }
+          onLogoutClick={ this.props.logout }
         />
         { this.props.children }
       </div>
     )
   }
 }
-
 // Place state of redux store into props of component
-const mapStateToProps = (state) => {
+function mapStateToProps (state) {
   return {
     account: state.account,
     router: state.router
   }
 }
-
 // Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators(Actions, dispatch)
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
-

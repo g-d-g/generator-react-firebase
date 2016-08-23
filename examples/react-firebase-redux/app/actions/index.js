@@ -20,6 +20,7 @@ export function signup (signupData, account) {
   }
 }
 
+
 export function logout () {
   return {
     type: LOGOUT_RESPONSE,

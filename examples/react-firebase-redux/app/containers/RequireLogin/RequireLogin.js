@@ -1,21 +1,17 @@
-import React, { Component, PropTypes } from 'react'
+import {Component} from 'react';
 
 export default class RequireLogin extends Component {
-  static propTypes = {
-    children: PropTypes.array
-  }
-
-  static onEnter (store) {
+  static onEnter(store) {
     return (nextState, transition) => {
-      const { auth: { user } } = store.getState()
+      const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        transition.to('/')
+        transition.to('/');
       }
-    }
+    };
   }
 
-  render () {
-    return this.props.children
+  render() {
+    return this.props.children;
   }
 }

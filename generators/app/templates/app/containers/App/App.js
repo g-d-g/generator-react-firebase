@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
-const { pathToJS } = helpers<% } %>
+
 // Components
 import Navbar from '../Navbar/Navbar'
 
@@ -14,6 +12,10 @@ import './App.scss'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
+<% if (answers.includeRedux) { %>//redux/firebase
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { pathToJS } = helpers<% } %>
 <% if (answers.includeRedux) { %>//Pass Firebase Profile to account prop
 @firebase()
 @connect(
@@ -54,14 +56,15 @@ export default class Main extends Component {
   }
 
   render () {
+    const { account, children } = this.props
     return (
       <div className="App">
         <Navbar
-          account={ this.props.account }
+          account={ account }
           onMenuClick={ this.handleClick }
           onLogoutClick={ this.handleLogout }
         />
-        { this.props.children }
+        { children }
       </div>
     )
   }

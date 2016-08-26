@@ -34,6 +34,7 @@ export default class Navbar extends Component {
   }
 
   render() {
+    console.log('navbar account:', this.props.account)
     const { username, avatar_url } = this.props.account ? this.props.account : {}
     const iconButton = (
       <Avatar

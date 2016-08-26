@@ -2,11 +2,10 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from '../reducers'
 import thunkMiddleware from 'redux-thunk'
 import { firebase as fbConfig } from '../config'
-import { reduxReactFirebase } from 'redux-firebasev3'
-// import { apiMiddleware } from 'redux-api-middleware'
+import { reduxFirebase } from 'redux-firebasev3'
 
 const createStoreWithMiddleware = compose(
-  reduxReactFirebase(fbConfig, { userProfile: fbConfig.userFolder }),
+  reduxFirebase(fbConfig, { userProfile: fbConfig.userFolder }),
   applyMiddleware(thunkMiddleware),
   typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)

@@ -29,7 +29,10 @@ export default class Navbar extends Component {
   }
 
   render() {
-    const { username, avatar_url } = this.props.account ? this.props.account : {}
+    const { account } = this.props
+    const { username, avatar_url } = account || {}
+
+    // Logged In Avatar
     const iconButton = (
       <Avatar
         className='Navbar-Avatar'
@@ -37,12 +40,20 @@ export default class Navbar extends Component {
         size={ avatarSize }
       />
     )
+
+    // Logged out menu
     const mainMenu = (
       <div className='Navbar-Main-Menu'>
-        <Link to='/signup'><FlatButton label='Sign Up' style={ buttonStyle } /></Link>
-        <Link to='/login'><FlatButton label='Login' style={ buttonStyle } /></Link>
+        <Link to='/signup'>
+          <FlatButton label='Sign Up' style={ buttonStyle } />
+        </Link>
+        <Link to='/login'>
+          <FlatButton label='Login' style={ buttonStyle } />
+        </Link>
       </div>
     )
+
+    // Menu based on logged in status
     const rightMenu = username ? (
       <IconMenu
         iconButtonElement={ iconButton }
@@ -54,6 +65,7 @@ export default class Navbar extends Component {
         <MenuItem primaryText='Sign out' value='logout'/>
       </IconMenu>
     ) : mainMenu
+
     return (
       <AppBar
         title={

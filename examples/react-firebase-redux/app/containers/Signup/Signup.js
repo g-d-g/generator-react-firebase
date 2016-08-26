@@ -50,8 +50,8 @@ export default class Signup extends Component {
           console.error('error signing up:', error, error.toString())
         })
     }
-    this.props.firebase.createUser(signupData, { username, email })
-    
+    this.props.firebase.createUser({ email, password }, { username, email })
+
   }
 
   googleSignup = () => {

@@ -15,6 +15,10 @@ const avatarSize = 50
 const buttonStyle = { color: 'white' }
 
 export default class Navbar extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   static propTypes = {
     account: PropTypes.object,
     onMenuClick: PropTypes.func,
@@ -23,16 +27,15 @@ export default class Navbar extends Component {
 
   selectItem = (e, val) => {
     if (val === 'logout' && this.props.onLogoutClick) {
+      this.context.router.push(`/`)
       return this.props.onLogoutClick()
     }
     this.props.onMenuClick(val)
   }
 
   render() {
-    const { account } = this.props
-    const { username, avatar_url } = account || {}
-
-    // Logged In Avatar
+    console.log('navbar account:', this.props.account)
+    const { username, avatar_url } = this.props.account ? this.props.account : {}
     const iconButton = (
       <Avatar
         className='Navbar-Avatar'
@@ -40,20 +43,12 @@ export default class Navbar extends Component {
         size={ avatarSize }
       />
     )
-
-    // Logged out menu
     const mainMenu = (
       <div className='Navbar-Main-Menu'>
-        <Link to='/signup'>
-          <FlatButton label='Sign Up' style={ buttonStyle } />
-        </Link>
-        <Link to='/login'>
-          <FlatButton label='Login' style={ buttonStyle } />
-        </Link>
+        <Link to='/signup'><FlatButton label='Sign Up' style={ buttonStyle } /></Link>
+        <Link to='/login'><FlatButton label='Login' style={ buttonStyle } /></Link>
       </div>
     )
-
-    // Menu based on logged in status
     const rightMenu = username ? (
       <IconMenu
         iconButtonElement={ iconButton }
@@ -65,7 +60,6 @@ export default class Navbar extends Component {
         <MenuItem primaryText='Sign out' value='logout'/>
       </IconMenu>
     ) : mainMenu
-
     return (
       <AppBar
         title={

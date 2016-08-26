@@ -1,34 +1,54 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+<% if (!answers.includeRedux) { %>import firebase from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS } = helpers<% } %>
 
-// components
+import GoogleButton from 'react-google-button'
+import Paper from 'material-ui/Paper'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar'
+import RaisedButton from 'material-ui/RaisedButton'
+import FontIcon from 'material-ui/FontIcon'
 import LoginForm from '../../components/LoginForm/LoginForm'
-
-// material-ui components
-import Paper from 'material-ui/lib/paper'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Snackbar from 'material-ui/lib/snackbar'
-import RaisedButton from 'material-ui/lib/raised-button'
-import FontIcon from 'material-ui/lib/font-icon'
-
-// styles
+import { project as projectSettings } from '../../config'
 import './Login.scss'
+<<<<<<< HEAD
 <% if (!answers.includeRedux) { %>import firebase from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators
+=======
+
+<% if (answers.includeRedux) { %>// Props decorators
+>>>>>>> origin/redux-firebasev3
 @firebase()
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
+    account: pathToJS(firebase, 'profile')
   })
 )<% } %>
 export default class Login extends Component {
+<<<<<<< HEAD
   state = {
     snackCanOpen: false,
     errors: { username: null, password: null },
+=======
+  <% if (answers.includeRedux) { %>static propTypes = {
+    account: PropTypes.object,
+    firebase: PropTypes.object,
+    authError: PropTypes.object
+  }<% } %>
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  state = {
+    snackCanOpen: false,
+>>>>>>> origin/redux-firebasev3
     errorMessage: null
   }
   componentWillReceiveProps (nextProps) {
@@ -42,28 +62,13 @@ export default class Login extends Component {
 
   handleRequestClose = () => this.setState({ snackCanOpen: false })
 
-  render () {
-    const { isLoading, snackCanOpen, errorMessage } = this.state
-    const { authError } = this.props
-    const handleLogin = loginData => {
-      this.setState({
-        snackCanOpen: true,
-        isLoading: true
-      })
-  <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)
-      .then(() => this.context.router.push('/sheets'))
-  <% } %>
-  <% if (!answers.includeRedux) { %>const { email, password, provider } = loginData
-    let newState = {
-      isLoading: false,
-      errors: { username: null, email: null }
-    }
-    if (!provider && (!email || !password)) {
-      newState.errors.email = email ? 'Email is required' : null
-      newState.errors.password = password ? 'Password is required' : null
-      console.error('missing info', loginData, email, password)
-      return this.setState(newState)
-    }
+  handleLogin = loginData => {
+    this.setState({
+      snackCanOpen: true,
+      isLoading: true
+    })
+    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)
+        .then(() => this.context.router.push(`/${projectSettings.postLoginRoute}`))<% } %><% if (!answers.includeRedux) { %>const { email, password } = loginData
     if (email && password) {
       firebase.auth()
         .signInWithEmailAndPassword(email, password)
@@ -74,12 +79,19 @@ export default class Login extends Component {
           } else {
             console.log('time to redirect or login?', error)
           }
-          this.setState(newState)
+          this.setState({ isLoading: false })
         })
     }<% } %>
-    }
-    const closeToast = () => this.setState({ snackCanOpen: false })
+  }
 
+  googleLogin = () => {
+    // TODO: Handle Google Login
+    console.log('google')
+  }
+
+  render () {
+    const { isLoading, snackCanOpen, errorMessage } = this.state
+    const { authError } = this.props
 
     if (isLoading) {
       return (
@@ -94,16 +106,24 @@ export default class Login extends Component {
     return (
       <div className='Login'>
         <Paper className='Login-Panel'>
+<<<<<<< HEAD
           <LoginForm onLogin={ handleLogin } />
+=======
+          <LoginForm onLogin={ this.handleLogin } />
+>>>>>>> origin/redux-firebasev3
         </Paper>
         <div className='Login-Or'>
           or
         </div>
+<<<<<<< HEAD
         <RaisedButton
           label='Sign in With Google'
           secondary={ true }
           onTouchTap={ handleLogin.bind(this, { provider: 'google', type: 'popup' }) }
         />
+=======
+        <GoogleButton onClick={ this.googleLogin } />
+>>>>>>> origin/redux-firebasev3
         <div className='Login-Signup'>
           <span className='Login-Signup-Label'>
             Need an account?

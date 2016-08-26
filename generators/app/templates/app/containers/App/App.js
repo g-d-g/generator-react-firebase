@@ -1,73 +1,71 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'<% } %>
 
 // Components
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../Navbar/Navbar'
 
 // Styling
 import Theme from '../../theme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import './App.scss'
 
 // Tap Plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-<% if (answers.includeRedux) { %>class Main extends Component {<% } %>
-<% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
-  constructor (props) {
-    super(props)
-  }
-
+<% if (answers.includeRedux) { %>//redux/firebase
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { pathToJS } = helpers<% } %>
+<% if (answers.includeRedux) { %>//Pass Firebase Profile to account prop
+@firebase()
+@connect(
+  ({firebase}) => ({
+    account: pathToJS(firebase, 'profile')
+  })
+)<% } %>
+export default class Main extends Component {
   static childContextTypes = {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
-  getChildContext = () => {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
-    }
+  static propTypes = {
+    account: PropTypes.object,
+    children: PropTypes.object,
+    logout: PropTypes.func,
+    <% if (answers.includeRedux) { %>firebase: PropTypes.object,
+    authError: PropTypes.object<% } %>
   }
+
+  getChildContext = () => (
+    {
+      muiTheme: getMuiTheme(Theme)
+    }
+  )
 
   handleClick = loc => {
     this.context.router.push(`/${loc}`)
   }
 
   handleLogout = () => {
-    this.props.logout()
+    this.props.firebase.logout()
     this.context.router.push(`/`)
   }
 
   render () {
+    const { account, children } = this.props
     return (
       <div className="App">
         <Navbar
-          account={ this.props.account }
+          account={ account }
           onMenuClick={ this.handleClick }
           onLogoutClick={ this.handleLogout }
         />
-        { this.props.children }
+        { children }
       </div>
     )
   }
 }
-<% if (answers.includeRedux) { %>
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    account: state.account,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
-<% } %>

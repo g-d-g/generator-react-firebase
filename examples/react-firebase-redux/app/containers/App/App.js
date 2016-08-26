@@ -1,50 +1,73 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as Actions from '../../actions'
-
+import { firebase, helpers } from 'redux-firebasev3'
+const { pathToJS } = helpers
 // Components
+<<<<<<< HEAD
 import Navbar from '../../components/Navbar/Navbar'
+=======
+import Navbar from '../Navbar/Navbar'
+>>>>>>> origin/redux-firebasev3
 
 // Styling
 import Theme from '../../theme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import './App.scss'
 
 // Tap Plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
+<<<<<<< HEAD
 class Main extends Component {
 
   constructor (props) {
     super(props)
   }
 
+=======
+//Pass Firebase Profile to account prop
+@firebase()
+@connect(
+  ({firebase}) => ({
+    account: pathToJS(firebase, 'profile')
+  })
+)
+export default class Main extends Component {
+>>>>>>> origin/redux-firebasev3
   static childContextTypes = {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
-  getChildContext = () => {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
-    }
+  static propTypes = {
+    account: PropTypes.object,
+    children: PropTypes.object,
+    logout: PropTypes.func,
+    firebase: PropTypes.object,
+    authError: PropTypes.object
   }
+
+  getChildContext = () => (
+    {
+      muiTheme: getMuiTheme(Theme)
+    }
+  )
 
   handleClick = loc => {
     this.context.router.push(`/${loc}`)
   }
 
   handleLogout = () => {
-    this.props.logout()
+    this.props.firebase.logout()
     this.context.router.push(`/`)
   }
 
   render () {
+    console.log('this.props:', this.props)
     return (
       <div className="App">
         <Navbar
@@ -57,6 +80,7 @@ class Main extends Component {
     )
   }
 }
+<<<<<<< HEAD
 
 // Place state of redux store into props of component
 const mapStateToProps = (state) => {
@@ -71,3 +95,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
 
+=======
+>>>>>>> origin/redux-firebasev3
